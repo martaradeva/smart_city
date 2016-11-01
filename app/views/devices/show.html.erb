@@ -1,3 +1,7 @@
-<h1>Devices#show</h1>
-<p>Find me in app/views/devices/show.html.erb</p>
+<h1>Device <%= @device.id %> Readings</h1>
+  <ul class="nav nav-tabs">
+    <li role="presentation"><a href="/devices%>">Map</a></li>
+    <li role="presentation" class="active"><a href="#">Device readings</a></li>
+  </ul>
+<p>This device has the following readings:</p>
 <%= @device.readings.first %>
