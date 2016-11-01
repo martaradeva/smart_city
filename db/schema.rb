@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101202816) do
+ActiveRecord::Schema.define(version: 20161101203656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20161101202816) do
     t.decimal  "sensor_01"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "device_id"
+    t.index ["device_id"], name: "index_device_id", using: :btree
   end
 
 end

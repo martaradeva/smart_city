@@ -1,3 +1,3 @@
 class Device < ApplicationRecord
-  # has_many :readings
+  has_many :readings
 end
