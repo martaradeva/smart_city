@@ -1,24 +1,18 @@
-# README
+Pull repo. 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+in project directory in console -> 
 
-Things you may want to cover:
+`bundle install`
 
-* Ruby version
+Save `config/database.yml.example` as `config/database.yml` and add your postgress users and passwords.
 
-* System dependencies
+In psql, make users and passwords. You may use this tutorial. 
+https://rgstudygroups.hackpad.com/Installing-Postgre-on-Ubuntu-RQ6TIAunywO
 
-* Configuration
+In project folder in console
 
-* Database creation
+`rake db:migrate`
 
-* Database initialization
+`rails s`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+If all is well, should be rolling by now.
