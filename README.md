@@ -16,3 +16,26 @@ In project folder in console
 `rails s`
 
 If all is well, should be rolling by now.
+
+***
+
+API Docs:
+
+Sensor readings will be updated via a single query:
+
+`[POST] <app-url>/readings`
+
+````
+HEADERS
+
+Content-Type : application/json
+
+Body: {
+    "device_id" : "123",
+    "lat" : "42.6599371",
+    "long" : "23.3165944",
+    "sensor_01" : "",
+    "sensor_02" : ""
+  }
+
+More sensors will be added later.
