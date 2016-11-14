@@ -39,12 +39,21 @@ describe "Medicaments API", :type => :request do
 
   it 'creates reading from valid data' do
     expected_number = @device.readings.length + 1
-    post('/readings', valid_reading, headers)
+    post'/readings', params: valid_reading, headers: headers
     response_parsed = JSON.parse(response.body)
     @device.reload
     expect(response.status).to eq(200)
     expect(@device.readings.length).to eq(expected_number)
     expect(@device.readings.last.sensor_01).to eq(23.456)
     expect(Reading.last.sensor_01).to eq(23.456)
+  end
+
+  it 'returns error message when passed invalid data' do
+    expected_number = @device.readings.length
+    post'/readings', params: invalid_reading, headers: headers
+    response_parsed = JSON.parse(response.body)
+    @device.reload
+    expect(response.status).to eq(400)
+    expect(@device.readings.length).to eq(expected_number)
   end
 end
