@@ -41,9 +41,9 @@ describe "Medicaments API", :type => :request do
     expected_number = @device.readings.length + 1
     post('/readings', valid_reading, headers)
     response_parsed = JSON.parse(response.body)
-    @device.reload!
+    @device.reload
     expect(response.status).to eq(200)
-    expect(@device.readings.length).to eq(expected_length)
+    expect(@device.readings.length).to eq(expected_number)
     expect(@device.readings.last.sensor_01).to eq(23.456)
     expect(Reading.last.sensor_01).to eq(23.456)
   end

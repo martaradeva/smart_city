@@ -1,7 +1,8 @@
 class ReadingsController < ApplicationController
 
   def create
-    @reading = Reading.new(clean_params)
+    params1 = clean_params
+    @reading = Reading.new(params1)
     if @reading.save!
       render json: { success: "true", message: "Reading successfully saved!"}, status: 200
     else
