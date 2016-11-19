@@ -13,6 +13,6 @@ class ReadingsController < ApplicationController
   private
 
   def clean_params
-    params.require(:reading).permit(:device_id, :lat, :long, :sensor_01)
+    params.require(:reading).permit(:device_id, :lat, :long, :hum, :pres, :temp)
   end
 end

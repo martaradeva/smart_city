@@ -10,7 +10,9 @@ describe "Medicaments API", :type => :request do
           "device_id" : "' + "#{@device.try(:id)}" + '",
           "lat" : "42.6599371",
           "long" : "23.3165944",
-          "sensor_01" : "23.456"
+          "temp" : "23.456",
+          "hum" : "23.456",
+          "pres" : "23.456"
         }
       }'
     }
@@ -22,7 +24,9 @@ describe "Medicaments API", :type => :request do
           "device_id" : "' + "#{@device.try(:id) + 1}" + '",
           "lat" : "42.6599371",
           "long" : "23.3165944",
-          "sensor_01" : "23.456"
+          "temp" : "23.456",
+          "hum" : "23.456",
+          "pres" : "23.456"
         }
       }'
     }
@@ -44,8 +48,8 @@ describe "Medicaments API", :type => :request do
     @device.reload
     expect(response.status).to eq(200)
     expect(@device.readings.length).to eq(expected_number)
-    expect(@device.readings.last.sensor_01).to eq(23.456)
-    expect(Reading.last.sensor_01).to eq(23.456)
+    expect(@device.readings.last.hum).to eq(23.456)
+    expect(Reading.last.hum).to eq(23.456)
   end
 
   it 'returns error message when passed invalid data' do
