@@ -8,49 +8,48 @@
 <% begin %>
 <h3>Device <%= @device.id %> Readings</h3>
   <p>This device has the following readings:</p>
-  <div class="readings-index container">
-  <table class="table table-striped">
-  <tr>
-    <th>
-      ID
-    </th>
-    <th>
-      Location (lat, long)
-    </th>
-    <th>
-      Humidity
-    </th>
-    <th>
-      Temperature
-    </th>
-    <th>
-      Pressure
-    </th>
-    <th>
-      Created at
-    </th>
-  </tr>
-  <% @device.readings.each do |reading| %>
+  <table class="table table-striped readings-index">
     <tr>
-      <td>
-        Reading <%= reading.id %>
-      </td>
-      <td>
-        <%= "(#{reading.lat}, #{reading.long})"%>
-      </td>
-      <td>
-        <%= reading.hum %>
-      </td>
-      <td>
-        <%= reading.temp %>
-      </td>
-      <td>
-        <%= reading.pres %>
-      </td>
-      <td>
-        <%= reading.created_at.to_formatted_s(:short)  %>
-      </td>
+      <th>
+        ID
+      </th>
+      <th>
+        Location (lat, long)
+      </th>
+      <th>
+        Humidity
+      </th>
+      <th>
+        Temperature
+      </th>
+      <th>
+        Pressure
+      </th>
+      <th>
+        Created at
+      </th>
     </tr>
+    <% @device.readings.each do |reading| %>
+      <tr>
+        <td>
+          Reading <%= reading.id %>
+        </td>
+        <td>
+          <%= "(#{reading.lat}, #{reading.long})"%>
+        </td>
+        <td>
+          <%= reading.hum %>
+        </td>
+        <td>
+          <%= reading.temp %>
+        </td>
+        <td>
+          <%= reading.pres %>
+        </td>
+        <td>
+          <%= reading.created_at.to_formatted_s(:short)  %>
+        </td>
+      </tr>
     <% end %>
   </table>
 <% rescue %>
