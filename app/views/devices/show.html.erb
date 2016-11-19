@@ -8,15 +8,48 @@
 <% begin %>
 <h3>Device <%= @device.id %> Readings</h3>
   <p>This device has the following readings:</p>
-  <div class="readings-index">
-  lat, long, hum, temp, pres, created_at
+  <div class="readings-index container">
+  <div class="table-header row">
+    <div class="col-xs-1">
+      ID
+    </div>
+    <div class="col-xs-2">
+      Location (lat, long)
+    </div>
+    <div class="col-xs-2">
+      Humidity
+    </div>
+    <div class="col-xs-2">
+      Temperature
+    </div>
+    <div class="col-xs-2">
+      Pressure
+    </div>
+    <div class="col-xs-3">
+      Created at
+    </div>
+  </div>
     <% @device.readings.each do |reading| %>
+    <div class="table-row row">
+      <div class="col-xs-1">
         Reading <%= reading.id %>
-        <%= reading.created_at %>
-        location: <%= "(#{reading.lat}, #{reading.long})"%>
+      </div>
+      <div class="col-xs-2">
+        <%= "(#{reading.lat}, #{reading.long})"%>
+      </div>
+      <div class="col-xs-2">
         <%= reading.hum %>
+      </div>
+      <div class="col-xs-2">
         <%= reading.temp %>
+      </div>
+      <div class="col-xs-2">
         <%= reading.pres %>
+      </div>
+      <div class="col-xs-3">
+        <%= reading.created_at.to_formatted_s(:short)  %>
+      </div>
+    </div>
     <% end %>
   </div>
 <% rescue %>
