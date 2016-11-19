@@ -9,49 +9,50 @@
 <h3>Device <%= @device.id %> Readings</h3>
   <p>This device has the following readings:</p>
   <div class="readings-index container">
-  <div class="table-header row">
-    <div class="col-xs-1">
+  <table class="table table-striped">
+  <tr>
+    <th>
       ID
-    </div>
-    <div class="col-xs-2">
+    </th>
+    <th>
       Location (lat, long)
-    </div>
-    <div class="col-xs-2">
+    </th>
+    <th>
       Humidity
-    </div>
-    <div class="col-xs-2">
+    </th>
+    <th>
       Temperature
-    </div>
-    <div class="col-xs-2">
+    </th>
+    <th>
       Pressure
-    </div>
-    <div class="col-xs-3">
+    </th>
+    <th>
       Created at
-    </div>
-  </div>
-    <% @device.readings.each do |reading| %>
-    <div class="table-row row">
-      <div class="col-xs-1">
+    </th>
+  </tr>
+  <% @device.readings.each do |reading| %>
+    <tr>
+      <td>
         Reading <%= reading.id %>
-      </div>
-      <div class="col-xs-2">
+      </td>
+      <td>
         <%= "(#{reading.lat}, #{reading.long})"%>
-      </div>
-      <div class="col-xs-2">
+      </td>
+      <td>
         <%= reading.hum %>
-      </div>
-      <div class="col-xs-2">
+      </td>
+      <td>
         <%= reading.temp %>
-      </div>
-      <div class="col-xs-2">
+      </td>
+      <td>
         <%= reading.pres %>
-      </div>
-      <div class="col-xs-3">
+      </td>
+      <td>
         <%= reading.created_at.to_formatted_s(:short)  %>
-      </div>
-    </div>
+      </td>
+    </tr>
     <% end %>
-  </div>
+  </table>
 <% rescue %>
   Error occurred.
 <% end %>
