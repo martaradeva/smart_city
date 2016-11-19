@@ -1,7 +1,24 @@
-<h1>Device <%= @device.id %> Readings</h1>
-  <ul class="nav nav-tabs">
-    <li role="presentation"><a href="/devices%>">Map</a></li>
-    <li role="presentation" class="active"><a href="#">Device readings</a></li>
-  </ul>
-<p>This device has the following readings:</p>
-<%= @device.readings.first %>
+<% content_for :title do %>Single device data<% end %>
+<% content_for :description do %>Shows the data from a single device<% end %>
+
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="/devices">Map</a></li>
+  <li role="presentation" class="active"><a href="#">Device readings</a></li>
+</ul>
+<% begin %>
+<h3>Device <%= @device.id %> Readings</h3>
+  <p>This device has the following readings:</p>
+  <div class="readings-index">
+  lat, long, hum, temp, pres, created_at
+    <% @device.readings.each do |reading| %>
+        Reading <%= reading.id %>
+        <%= reading.created_at %>
+        location: <%= "(#{reading.lat}, #{reading.long})"%>
+        <%= reading.hum %>
+        <%= reading.temp %>
+        <%= reading.pres %>
+    <% end %>
+  </div>
+<% rescue %>
+  Error occurred.
+<% end %>
