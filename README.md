@@ -24,7 +24,7 @@ API Docs:
 Sensor readings will be updated via a single query:
 
 REQUEST
-`[POST] <app-url>/readings`
+`[POST] https://smart-city-space.herokuapp.com/readings`
 
 ````
 HEADERS
@@ -36,13 +36,14 @@ Body: {
       "device_id" : "123",
       "lat" : "42.6599371",
       "long" : "23.3165944",
-      "sensor_01" : "",
-      "sensor_02" : ""
+      "temp" : "23.456",
+      "hum" : "23.456",
+      "pres" : "23.456"
     }
   }
 
 ````
-More sensors will be added later.
+Still have not added the voltage sensor, but will do soon. 
 
 RESPONSE - SUCCESS
 ````
