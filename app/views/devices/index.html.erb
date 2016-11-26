@@ -35,9 +35,7 @@
 
 <%= javascript_tag do%>
   window.readings= <%=raw @readings.to_json %>;
-  console.log(window.readings);
 <%end%>
-
 <script>
   var map;
   function initMap() {
@@ -53,27 +51,62 @@
     // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
     script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
     document.getElementsByTagName('head')[0].appendChild(script);
+
+    function getCircle(magnitude) {
+          return {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'red',
+            fillOpacity: .2,
+            scale: Math.pow(2, magnitude) / 2,
+            strokeColor: 'white',
+            strokeWeight: .5
+          };
+        }
+
+    map.data.setStyle(function(feature) {
+              var magnitude = feature.getProperty('mag');
+              return {
+                icon: getCircle(magnitude)
+              };
+            });
+
   }
+
+  // // Loop through the results array and place a marker for each
+  // // set of coordinates.
+  // window.eqfeed_callback = function() {
+  // for (var j = 0; j< window.readings.length; j++ ) {
+  //   var lat = window.readings[j].lat;
+  //   var long = window.readings[j].long;
+  //   var weight = window.readings[j].temp;
+  //   var latLng = new google.maps.LatLng(lat,long);
+  //     var marker = new google.maps.Marker({
+  //       position: latLng,
+  //       map: map
+  //     });
+  //   }
+  // }
 
   // Loop through the results array and place a marker for each
   // set of coordinates.
-  // console.log(window.readings);
-  window.eqfeed_callback = function(results) {
+  var heatMapData = [];
+  window.eqfeed_callback = function() {
   for (var j = 0; j< window.readings.length; j++ ) {
     var lat = window.readings[j].lat;
     var long = window.readings[j].long;
-    var latLng = new google.maps.LatLng(lat,long);
-  // }
-    // for (var i = 0; i < results.features.length; i++) {
-    //   var coords = results.features[i].geometry.coordinates;
-    //   var latLng = new google.maps.LatLng(coords[1],coords[0]);
-      var marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-      });
+    var weight = window.readings[j].temp;
+    heatMapData.push({location: new google.maps.LatLng(lat, long), weight: weight});
     }
+
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData
+  });
+  // console.log(heatMapData);
+  heatmap.setMap(map);
   }
+
+
 </script>
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key= &callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key=  &callback=initMap&libraries=visualization">
 </script>
