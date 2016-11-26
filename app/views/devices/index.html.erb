@@ -27,3 +27,53 @@
 <% rescue %>
   Error occured.
 <% end %>
+<div style="display:none">
+  <!-- readings = @devices.map{&:results.last}  -->
+</div>
+
+<div id="map" class="container" style="height: 500px"></div>
+
+<%= javascript_tag do%>
+  window.readings= <%=raw @readings.to_json %>;
+  console.log(window.readings);
+<%end%>
+
+<script>
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: new google.maps.LatLng(42.707, 23.346),
+      mapTypeId: 'terrain'
+    });
+
+    // Create a <script> tag and set the USGS URL as the source.
+    var script = document.createElement('script');
+    // This example uses a local copy of the GeoJSON stored at
+    // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
+    script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  // Loop through the results array and place a marker for each
+  // set of coordinates.
+  // console.log(window.readings);
+  window.eqfeed_callback = function(results) {
+  for (var j = 0; j< window.readings.length; j++ ) {
+    var lat = window.readings[j].lat;
+    var long = window.readings[j].long;
+    var latLng = new google.maps.LatLng(lat,long);
+  // }
+    // for (var i = 0; i < results.features.length; i++) {
+    //   var coords = results.features[i].geometry.coordinates;
+    //   var latLng = new google.maps.LatLng(coords[1],coords[0]);
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+      });
+    }
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key= &callback=initMap">
+</script>

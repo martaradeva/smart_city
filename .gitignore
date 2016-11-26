@@ -20,7 +20,8 @@
 # Ignore Byebug command history file.
 .byebug_history
 
-#/config/database.yml
+/config/database.yml
+/config/secrets.yml
 
 # Ignore rvm config file
 .rvmrc
