@@ -6,6 +6,7 @@ class DevicesController < ApplicationController
 
   def show
     set_device
+    set_highcharts_data
   end
 
   private
@@ -25,5 +26,19 @@ class DevicesController < ApplicationController
 
   def set_device
     @device = Device.find_by(id: params[:id])
+  end
+
+  def set_highcharts_data
+    @temperatures = []
+    @pressures = []
+    @dates = []
+    @humidities = []
+    @device.readings.each do |reading|
+      @dates << reading.created_at.to_formatted_s(:short)
+      @temperatures << reading.temp
+      @pressures << reading.pres
+      @humidities << reading.hum
+    end 
+    p @dates
   end
 end

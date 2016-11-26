@@ -1,10 +1,13 @@
 <% content_for :title do %>Single device data<% end %>
+<% content_for :head do %>
+<% end %>
 <% content_for :description do %>Shows the data from a single device<% end %>
 
 <ul class="nav nav-tabs">
   <li role="presentation"><a href="/devices">Map</a></li>
   <li role="presentation" class="active"><a href="#">Device readings</a></li>
 </ul>
+<div id="container" style="width:100%; height:400px;"></div>
 <% begin %>
 <h3>Device <%= @device.id %> Readings</h3>
   <p>This device has the following readings:</p>
@@ -55,3 +58,50 @@
 <% rescue %>
   Error occurred.
 <% end %>
+
+<%= javascript_tag do%>
+  var temperatures = <%=raw @temperatures.to_json %>;
+  console.log(temperstures.);
+<%end%>
+
+<script type="text/javascript">
+$(function () {
+    Highcharts.chart('container', {
+        title: {
+            text: 'Single device data',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Displays data from Device <%= @device.id %>',
+            x: -20
+        },
+        xAxis: {
+            categories: [1,2]
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Temperature',
+            data: <%= @temperatures.map(&:to_f) %>
+
+        }]
+    });
+});
+</script>
