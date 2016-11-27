@@ -7,6 +7,7 @@
   <li role="presentation"><a href="/devices">Map</a></li>
   <li role="presentation" class="active"><a href="#">Device readings</a></li>
 </ul>
+<div id="container2" style="width:100%; height:400px;"></div>
 <div id="container" style="width:100%; height:400px;"></div>
 <% begin %>
 <h3>Device <%= @device.id %> Readings</h3>
@@ -60,9 +61,12 @@
 <% end %>
 
 <%= javascript_tag do%>
+  window.dates = [];
+  <% @dates.each do |date| %>
+    var dateStr = "<%= date.to_formatted_s(:iso8601)%>";
+    window.dates.push(Date.parse(dateStr));
+  <% end %>
 <%end%>
-
-
 
 <script type="text/javascript">
 
@@ -77,7 +81,7 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: ['abc', 'def']
+            categories: window.dates
         },
         yAxis: {
             title: {
