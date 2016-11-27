@@ -60,11 +60,12 @@
 <% end %>
 
 <%= javascript_tag do%>
-  var temperatures = <%=raw @temperatures.to_json %>;
-  console.log(temperstures.);
 <%end%>
 
+
+
 <script type="text/javascript">
+
 $(function () {
     Highcharts.chart('container', {
         title: {
@@ -76,7 +77,7 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: [1,2]
+            categories: ['abc', 'def']
         },
         yAxis: {
             title: {
@@ -100,7 +101,12 @@ $(function () {
         series: [{
             name: 'Temperature',
             data: <%= @temperatures.map(&:to_f) %>
-
+                    }, {
+            name: 'Humidity',
+            data: <%= @humidities.map(&:to_f) %>
+        }, {
+            name: 'Pressure',
+            data: <%= @pressures.map(&:to_f) %>
         }]
     });
 });
