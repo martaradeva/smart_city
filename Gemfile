@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
   gem 'rack-cors'
+  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
