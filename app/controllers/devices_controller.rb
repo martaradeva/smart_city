@@ -2,6 +2,7 @@ class DevicesController < ApplicationController
   def index
     set_devices
     set_readings
+    set_key
   end
 
   def show
@@ -18,9 +19,7 @@ class DevicesController < ApplicationController
     @readings = []
     Device.all.each do |device|
       @readings << device.readings.last
-      p "lala"
     end
-    p @readings
     @readings
   end
 
@@ -34,11 +33,14 @@ class DevicesController < ApplicationController
     @dates = []
     @humidities = []
     @device.readings.each do |reading|
-      @dates << reading.created_at.to_formatted_s(:short)
+      @dates << reading.created_at
       @temperatures << reading.temp
       @pressures << reading.pres
       @humidities << reading.hum
     end 
-    p @dates
+  end
+
+  def set_key
+    @key = Rails.application.secrets.google_key
   end
 end
