@@ -22,6 +22,8 @@ begin
     r.hums = row[7],
     r.time_created = row[8]
     r.device_id = Device.first.id
+    r.lat = 42.661
+    r.long = 23.317
     r.save!
   end
 rescue
