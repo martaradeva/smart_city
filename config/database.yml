@@ -17,7 +17,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: smart_city_development
+  database: smart_city_production
   host: localhost
   pool: 5
   username: spostgres
