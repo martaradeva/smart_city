@@ -7,7 +7,8 @@
   <li role="presentation"><a href="/devices">Map</a></li>
   <li role="presentation" class="active"><a href="#">Device readings</a></li>
 </ul>
-<div id="container" style="width:100%; height:400px;"></div>
+<div id="humidity-chart" style="width:100%; height:400px;"></div>
+<div id="temperature-chart" style="width:100%; height:400px;"></div>
 <% begin %>
 <h3>Device <%= @device.id %> Readings</h3>
   <p>This device has the following readings:</p>
@@ -20,7 +21,7 @@
         Location (lat, long)
       </th>
       <th>
-        Humidity
+        Humidity (%)
       </th>
       <th>
         Temperature
@@ -29,7 +30,7 @@
         Pressure
       </th>
       <th>
-        Humidity (soil)
+        Humidity (soil) (%)
       </th>
       <th>
         Temperature (water)
@@ -65,7 +66,7 @@
           <%= reading.pres %>
         </td>
         <td>
-          <%= reading.hums %>
+          <%= reading.soil_hum_percent %>
         </td>
         <td>
           <%= reading.tempw %>
@@ -102,12 +103,12 @@
 <script type="text/javascript">
   // Data retrieved from http://vikjavev.no/ver/index.php?spenn=2d&sluttid=16.06.2015.
 $(function () {
-    Highcharts.chart('container', {
+    Highcharts.chart('humidity-chart', {
         chart: {
             type: 'spline'
         },
         title: {
-            text: 'Air humidity'
+            text: 'Air and Soil Humidity'
         },
         subtitle: {
             text: 'Displays data from Device <%= @device.id %>'
@@ -120,23 +121,23 @@ $(function () {
         },
         yAxis: {
             title: {
-              text: 'Air Humidity (%)'
+              text: 'Humidity (%)'
             },
             minorGridLineWidth: 0,
             gridLineWidth: 0,
             alternateGridColor: null,
-            plotBands: [{ // Green
+            plotBands: [{ // Red
                 from: 0.3,
-                to: 50,
-                color: 'rgba(153, 255, 51, 0.3)',
+                to: 25,
+                color: 'rgba(255, 51, 0, 0.2)',
                 label: {
-                    text: 'Green zone',
+                    text: 'Red zone',
                     style: {
                         color: '#606060'
                     }
                 }
-            }, { // Yellow
-                from: 50,
+            },{ // Yellow
+                from: 25,
                 to: 75,
                 color: 'rgba(255, 255, 153, 0.4)',
                 label: {
@@ -145,12 +146,13 @@ $(function () {
                         color: '#606060'
                     }
                 }
-            }, { // Red
+            },
+            { // Green
                 from: 75,
                 to: 100,
-                color: 'rgba(255, 51, 0, 0.2)',
+                color: 'rgba(153, 255, 51, 0.3)',
                 label: {
-                    text: 'Red zone',
+                    text: 'Green zone',
                     style: {
                         color: '#606060'
                     }
@@ -179,7 +181,108 @@ $(function () {
         series: [{
             name: 'Air Humidity',
             data: <%= @humidities.map(&:to_f) %>
-        }],
+        },{
+            name: 'Soil Humidity',
+            data: <%= @humidities_soil.map(&:to_f) %>
+        }
+        ],
+        navigation: {
+            menuItemStyle: {
+                fontSize: '10px'
+            }
+        }
+    });
+});
+</script>
+
+
+<script type="text/javascript">
+  // Data retrieved from http://vikjavev.no/ver/index.php?spenn=2d&sluttid=16.06.2015.
+$(function () {
+    Highcharts.chart('temperature-chart', {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Air and Water Temperature'
+        },
+        subtitle: {
+            text: 'Displays data from Device <%= @device.id %>'
+        },
+        xAxis: {
+            type: 'datetime',
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        yAxis: {
+            title: {
+              text: 'Temperature (C)'
+            },
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            alternateGridColor: null,
+            plotBands: [{ // Blue
+                from: -10,
+                to: 5,
+                color: 'rgba(102, 204, 255, 0.3)',
+                label: {
+                    text: 'Blue zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            },{ // Green
+                from: 5,
+                to: 30,
+                color: 'rgba(153, 255, 51, 0.3)',
+                label: {
+                    text: 'Green zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            },
+            { // Red
+                from: 30,
+                to: 100,
+                color: 'rgba(255, 51, 0, 0.2)',
+                color: 'rgba(255, 51, 0, 0.2)',
+                label: {
+                    text: 'Red Zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' m/s'
+        },
+        plotOptions: {
+            spline: {
+                lineWidth: 4,
+                states: {
+                    hover: {
+                        lineWidth: 5
+                    }
+                },
+                marker: {
+                    enabled: false
+                },
+                pointInterval: 600000, // one minute
+                pointStart: window.startDate
+                // pointStart: Date.UTC(2015, 4, 31, 0, 0, 0)
+            }
+        },
+        series: [{
+            name: 'Air Temperature',
+            data: <%= @temperatures.map(&:to_f) %>
+        },{
+            name: 'Water Temperature',
+            data: <%= @temperatures_water.map(&:to_f) %>
+        }
+        ],
         navigation: {
             menuItemStyle: {
                 fontSize: '10px'

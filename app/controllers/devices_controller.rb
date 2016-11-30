@@ -42,7 +42,7 @@ class DevicesController < ApplicationController
       @temperatures << reading.temp
       @pressures << reading.pres
       @humidities << reading.hum
-      @humidities_soil << reading.hums
+      @humidities_soil << reading.soil_hum_percent
       @temperatures_water << reading.tempw
       @battery_voltages << reading.voltage
       @mq5 << reading.mq5
