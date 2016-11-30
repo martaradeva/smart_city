@@ -65,52 +65,96 @@
     var dateStr = "<%= date.to_formatted_s(:iso8601)%>";
     window.dates.push(Date.parse(dateStr));
   <% end %>
+  window.startDate = window.dates[0];
+  console.log(window.startDate);
 <%end%>
 
 <script type="text/javascript">
-
+  // Data retrieved from http://vikjavev.no/ver/index.php?spenn=2d&sluttid=16.06.2015.
 $(function () {
     Highcharts.chart('container', {
+        chart: {
+            type: 'spline'
+        },
         title: {
-            text: 'Single device data',
-            x: -20 //center
+            text: 'Air humidity'
         },
         subtitle: {
-            text: 'Displays data from Device <%= @device.id %>',
-            x: -20
+            text: 'Displays data from Device <%= @device.id %>'
         },
         xAxis: {
-            categories: window.dates
+            type: 'datetime',
+            labels: {
+                overflow: 'justify'
+            }
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+              text: 'Air Humidity (%)'
             },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            alternateGridColor: null,
+            plotBands: [{ // Green
+                from: 0.3,
+                to: 50,
+                color: 'rgba(153, 255, 51, 0.3)',
+                label: {
+                    text: 'Green zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Yellow
+                from: 50,
+                to: 75,
+                color: 'rgba(255, 255, 153, 0.4)',
+                label: {
+                    text: 'Yellow zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
+            }, { // Red
+                from: 75,
+                to: 100,
+                color: 'rgba(255, 51, 0, 0.2)',
+                label: {
+                    text: 'Red zone',
+                    style: {
+                        color: '#606060'
+                    }
+                }
             }]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ' m/s'
         },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
+        plotOptions: {
+            spline: {
+                lineWidth: 4,
+                states: {
+                    hover: {
+                        lineWidth: 5
+                    }
+                },
+                marker: {
+                    enabled: false
+                },
+                pointInterval: 600000, // one minute
+                pointStart: window.startDate
+                // pointStart: Date.UTC(2015, 4, 31, 0, 0, 0)
+            }
         },
         series: [{
-            name: 'Temperature',
-            data: <%= @temperatures.map(&:to_f) %>
-                    }, {
-            name: 'Humidity',
+            name: 'Air Humidity',
             data: <%= @humidities.map(&:to_f) %>
-        }, {
-            name: 'Pressure',
-            data: <%= @pressures.map(&:to_f) %>
-        }]
+        }],
+        navigation: {
+            menuItemStyle: {
+                fontSize: '10px'
+            }
+        }
     });
 });
 </script>
