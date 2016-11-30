@@ -91,7 +91,7 @@
   for (var j = 0; j< window.readings.length; j++ ) {
     var lat = window.readings[j].lat;
     var long = window.readings[j].long;
-    var weight = window.readings[j].temp;
+    var weight = window.readings[j].hum;
     heatMapData.push({location: new google.maps.LatLng(lat, long), weight: weight});
     }
 
