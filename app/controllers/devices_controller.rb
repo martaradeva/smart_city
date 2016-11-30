@@ -32,11 +32,21 @@ class DevicesController < ApplicationController
     @pressures = []
     @dates = []
     @humidities = []
+    @humidities_soil = []
+    @temperatures_water = []
+    @battery_voltages = []
+    @mq5 = []
+    @mq135 = []
     @device.readings.each do |reading|
       @dates << reading.created_at
       @temperatures << reading.temp
       @pressures << reading.pres
       @humidities << reading.hum
+      @humidities_soil << reading.hums
+      @temperatures_water << reading.tempw
+      @battery_voltages << reading.voltage
+      @mq5 << reading.mq5
+      @mq135 << reading.mq135
     end 
   end
 

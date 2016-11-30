@@ -29,6 +29,21 @@
         Pressure
       </th>
       <th>
+        Humidity (soil)
+      </th>
+      <th>
+        Temperature (water)
+      </th>
+      <th>
+        MQ5
+      </th>
+      <th>
+        MQ135
+      </th>
+      <th>
+        Voltage
+      </th>
+      <th>
         Created at
       </th>
     </tr>
@@ -48,6 +63,21 @@
         </td>
         <td>
           <%= reading.pres %>
+        </td>
+        <td>
+          <%= reading.hums %>
+        </td>
+        <td>
+          <%= reading.tempw %>
+        </td>
+        <td>
+          <%= reading.mq5 %>
+        </td>
+        <td>
+          <%= reading.mq135 %>
+        </td>
+        <td>
+          <%= reading.voltage %>
         </td>
         <td>
           <%= reading.created_at.to_formatted_s(:short)  %>
